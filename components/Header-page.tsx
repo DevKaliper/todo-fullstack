@@ -11,7 +11,7 @@ export default function Header() {
     <div className="flex  w-full items-center  justify-between   rounded-lg px-5 py-3 shadow-lg ">
       <div className="flex items-center justify-center gap-1">
         <Logo />
-        <span className="md:text-2xl font-bold"> NOMBRE DEL PROYECTO </span>
+        <span className="md:text-2xl font-bold"> TODO LIST </span>
       </div>
 
       <div className="flex gap-4">

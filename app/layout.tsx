@@ -10,8 +10,8 @@ import  Header  from "@/components/Header-page";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NUEVO PROYECTO",
-  description: "...",
+  title: "TODO LIST",
+  description: "TODO LIST hecho con react y nextjs y nodejs",
 };
 
 export default function RootLayout({
