@@ -24,23 +24,23 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
-export function CardWithForm() {
+export function CardWithForm({ task}:any) {
+  
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>TODO ID: ID</CardTitle>
-        <CardDescription>Created on: march 14, 2034</CardDescription>
+        <CardTitle>ID: {task.id}</CardTitle>
+        <CardDescription>Created on: {task.date}</CardDescription>
       </CardHeader>
       <CardContent className="text-center">
-        <h3 className="mb-5 font-bold text-2xl">Nombre de la lista</h3>
+        <h3 className="mb-5 font-bold text-2xl">{task.name}</h3>
 
         <p className="mb-5">
-          <strong>Descripción:</strong> Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Quisquam, voluptates.
+          <strong>Descripción:</strong> {task.description}
         </p>
 
         <h3>
-          Estado de la lista: <strong className="italic">done</strong>
+          Estado de la lista: <strong className="italic">{task.status ? "Done":"Pending"}</strong>
         </h3>
       </CardContent>
       <CardFooter className="flex justify-between">
@@ -51,7 +51,7 @@ export function CardWithForm() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>TODO # Id</DialogTitle>
+          <DialogTitle>ID: {task.id}</DialogTitle>
           <DialogDescription>
             Edit your TODO list.
           </DialogDescription>
