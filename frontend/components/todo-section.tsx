@@ -10,7 +10,7 @@ async function getTodos() {
 }
 
 
-export default  function Page({change}:any) {
+export default  function Page({change, setChanges}:any) {
   const [todos, setTodos] = useState([]);
 
 
@@ -24,6 +24,7 @@ export default  function Page({change}:any) {
       <div className=" min-h-[80vh] grid 2xl:grid-cols-5 place-content-center gap-6">
         {todos.map((task: any) => (
           <CardWithForm
+            setChanges={setChanges}
             key={task.id}
             task={task}
           />

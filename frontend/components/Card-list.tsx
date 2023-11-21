@@ -1,5 +1,6 @@
-import * as React from "react";
-
+"use client"
+import {useState} from "react";
+import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,6 +16,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
+  DialogClose,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -24,8 +26,34 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
-export function CardWithForm({ task}:any) {
-  
+export function CardWithForm({ task, setChanges}:any) {
+  const { toast } = useToast();
+  const [name, setName] = useState(task.name);
+  const [description, setDescription] = useState(task.description);
+  const [status, setStatus] = useState(task.status);
+  const editTodo = () => {
+    fetch(`http://localhost:3001/list/${task.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        status,
+      }),
+
+  }
+  ).then(res =>{
+    if (!res.ok) toast({
+      title: "Error",
+      variant: "destructive",
+      description:
+        "Something went wrong! Check your fields and try again.",
+    });
+  })
+  setChanges((prev:any) => prev + 1);
+  }
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -49,6 +77,8 @@ export function CardWithForm({ task}:any) {
       <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DialogTrigger>
+
+      {/* EMPIEZA EL DIALOG PARA EDITAR EL TODO */}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>ID: {task.id}</DialogTitle>
@@ -63,7 +93,8 @@ export function CardWithForm({ task}:any) {
             </Label>
             <Input
               id="name"
-              defaultValue={"Su valor normal"}
+              value={name}
+              onChange={(e) => setName(e.target.value)} // PARA CAMBIAR EL VALOR DE NAME
               className="col-span-3"
             />
           </div>
@@ -73,7 +104,8 @@ export function CardWithForm({ task}:any) {
             </Label>
             <Textarea
               id="Description"
-              defaultValue={"Su valor normal"}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)} // PARA CAMBIAR EL VALOR DE DESCRIPTION
               className="col-span-3"
             />
           </div>
@@ -81,19 +113,21 @@ export function CardWithForm({ task}:any) {
             <Label htmlFor="status" className="text-right">
               Status
             </Label>
-            <Select>
+            <Select onValueChange={(e) => setStatus(e==="done"?true:false)}>
               <SelectTrigger>
-                <SelectValue>Done</SelectValue>
+                <SelectValue placeholder={"❔"}/>
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="done">Done</SelectItem>
-                <SelectItem value="pending">pending</SelectItem>
+              <SelectContent position="popper">
+                <SelectItem value="done">✅ done</SelectItem>
+                <SelectItem value="pending">❌ pending</SelectItem>
               </SelectContent>
             </Select>
         </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+        <DialogClose asChild>
+          <Button onClick={editTodo} type="submit">Save changes</Button>
+        </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -10,7 +10,7 @@ export default function Home() {
         <Header setChange={setChanges}/>
       </header>
 
-      <TodoSection change={changes} />
+      <TodoSection change={changes}  setChanges={setChanges}/>
     </section>
   );
 }
