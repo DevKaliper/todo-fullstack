@@ -1,88 +1,16 @@
 import express, { json } from "express";
-
-import { requireJSON } from "./utils/requireJSON.js";
-import { randomUUID } from "node:crypto";
-import cors from "cors";
+import { listRouter } from "./router/list.js";
+import { corsMiddleware } from "./middlewares/cors.js";
 const app = express();
-import { validateSchema, validatePartialSchema } from "./schema/listSchema.js";
-const PORT = process.env.PORT || 3001;
-const list = requireJSON("../list.json");
+
+const PORT = process.env.PORT ?? 3001;
 
 app.disable("x-powered-by");
-app.use(
-  cors({
-    origin: (origin, callback) => { // Para permitir el acceso a la API desde el frontend en modo desarrollo
-      const whitelist = ["http://localhost:3000"];
-      if (!origin || whitelist.some((domain) => domain === origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
+app.use(corsMiddleware());
 app.use(json());
 
-// Para obtener los datos de todas las listas
-app.get("/list", (req, res) => {
-  res.json(list);
-});
-
-// Para obtener los datos de una lista en particular
-app.get("/list/:id", (req, res) => {
-  const { id } = req.params;
-  const listId = list.find((list) => list.id === id);
-  if (!listId) return res.status(404).json({ message: "List not found" });
-  res.json(listId);
-});
-
-// Para crear una lista en particular
-app.post("/list", (req, res) => {
-  const listRequest = validateSchema(req.body);
-  if (!listRequest.success)
-    return res.status(400).json({ message: listRequest.error });
-  let date = new Date().toISOString();
-  date = date.split("T")[0];
-
-  const newList = {
-    id: randomUUID(),
-    date,
-    ...listRequest.data,
-  };
-
-  list.push(newList);
-  res.status(201).json(newList);
-});
-
-// Para actualizar los datos de una lista en particular
-app.patch("/list/:id", (req, res) => {
-  const { id } = req.params;
-  const listMod = list.findIndex((list) => list.id === id);
-  if (listMod === -1)
-    return res.status(404).json({ message: "List not found" });
-
-  const listRequest = validatePartialSchema(req.body);
-  if (!listRequest.success)
-    return res.status(400).json({ message: listRequest.error });
-
-  list[listMod] = {
-    ...list[listMod],
-    ...listRequest.data,
-  };
-
-  res.json(list[listMod]);
-});
-
-// Para eliminar una lista en particular
-app.delete("/list/:id", (req, res) => {
-  const { id } = req.params;
-  const listMod = findIndex((list) => list.id === id);
-  if (listMod === -1)
-    return res.status(404).json({ message: "List not found" });
-
-  list.splice(listMod, 1);
-  res.status(204).end();
-});
+// Rutas de la API REST de listas
+app.use("/list", listRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
