@@ -1,11 +1,16 @@
+"use client";
+import { useState } from "react";
 import TodoSection from "../components/todo-section";
+import Header from "../components/Header-page";
 export default function Home() {
-return(
-<section>
+  const [changes, setChanges] = useState(0);
+  return (
+    <section>
+      <header>
+        <Header setChange={setChanges}/>
+      </header>
 
-  <TodoSection/>
-</section>
-)
- 
-
+      <TodoSection change={changes} />
+    </section>
+  );
 }

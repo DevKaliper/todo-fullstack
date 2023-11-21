@@ -7,7 +7,7 @@ import { Logo } from "./Icons";
 import { Github, Twitter } from "lucide-react";
 import Link from "next/link";
 
-export default function Header() {
+export default function Header({setChange}: {setChange: any}) {
   return (
     <div className="flex z-[9999999]  w-full items-center  justify-between   rounded-lg px-5 py-3 shadow-lg ">
       <div className="flex items-center justify-center gap-1">
@@ -16,7 +16,7 @@ export default function Header() {
       </div>
 
       <div className="flex gap-4">
-        <AddNew />
+        <AddNew setChange={setChange}/>
         <Button
           variant="outline"
           size="icon">

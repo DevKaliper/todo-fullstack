@@ -1,7 +1,9 @@
-"use client"
+"use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Select,
   SelectContent,
@@ -9,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+
 import {
   Sheet,
   SheetClose,
@@ -21,12 +24,38 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 
-export function AddNew() {
-  const handle_Get = () => {
-    fetch("http://localhost:3001/list")
-    .then(res => res.json())
-    .then(data => console.log(data))
-  }
+export function AddNew({ setChange }: { setChange: any }) {
+  const { toast } = useToast();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState(false);
+
+  const postTodo = () => {
+    fetch("http://localhost:3001/list", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        status,
+      }),
+    }).then((res) => {
+      if (!res.ok)
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description:
+            "Something went wrong, please fill all the fields and try again.",
+        });
+    });
+    setChange((prev: number) => prev + 1);
+    setDescription("");
+    setName("");
+    setStatus(false);
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -46,7 +75,8 @@ export function AddNew() {
             </Label>
             <Input
               id="name"
-              value=""
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="col-span-3"
               placeholder="Do something..."
             />
@@ -59,6 +89,8 @@ export function AddNew() {
             </Label>
             <Textarea
               id="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="col-span-3"
               placeholder="Do something..."
             />
@@ -69,22 +101,27 @@ export function AddNew() {
               htmlFor="Estatus">
               Estatus
             </Label>
-            <Select>
+            <Select
+              onValueChange={(e) => setStatus(e === "pending" ? false : true)}>
               <SelectTrigger
                 className="col-span-3"
                 id="Estatus">
-                <SelectValue placeholder={"✅"} />
+                <SelectValue placeholder={"❔"} />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="done">done</SelectItem>
-                <SelectItem value="pending">pending</SelectItem>
+                <SelectItem value="done"> ✅ done</SelectItem>
+                <SelectItem value="pending">❌ pending</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button onClick={handle_Get} type="submit">Save</Button>
+            <Button
+              onClick={postTodo}
+              type="submit">
+              Save
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
