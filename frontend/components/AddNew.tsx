@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +22,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 export function AddNew() {
+  const handle_Get = () => {
+    fetch("http://localhost:3001/list")
+    .then(res => res.json())
+    .then(data => console.log(data))
+  }
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -78,7 +84,7 @@ export function AddNew() {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save</Button>
+            <Button onClick={handle_Get} type="submit">Save</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

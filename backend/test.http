@@ -1,0 +1,37 @@
+### Recuperando todas las listas
+GET http://localhost:3001/list
+
+
+### Recuperando una lista
+GET http://localhost:3001/list/abcd-efgh-5678
+
+
+### Creando una lista
+POST http://localhost:3001/list
+Content-Type: application/json
+
+
+{
+    "id": "slkdjflkasdjfa",
+    "name": "Lista de la compra",
+    "description": "Lista de la compra de la semana"
+
+   
+}
+
+### Actualizando una lista
+PATCH http://localhost:3001/list/abcd-efgh-5678
+Content-Type: application/json
+
+{
+    "name": "Probando la modificación ",
+    "description": "Lista de la compra de la semana"
+}
+
+
+### Eliminando una lista
+DELETE http://localhost:3001/list/abcd-efgh-5678
+
+
+
+
