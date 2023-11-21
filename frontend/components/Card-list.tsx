@@ -54,6 +54,14 @@ export function CardWithForm({ task, setChanges}:any) {
   })
   setChanges((prev:any) => prev + 1);
   }
+
+  const deleteTodo = () => {
+    fetch(`http://localhost:3001/list/${task.id}`, {
+      method: "DELETE"})
+
+      setChanges((prev:any) => prev + 1);
+
+  }
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -72,7 +80,7 @@ export function CardWithForm({ task, setChanges}:any) {
         </h3>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="destructive">Delete</Button>
+        <Button onClick={deleteTodo} variant="destructive">Delete</Button>
         <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
