@@ -1,13 +1,12 @@
-const express = require("express");
-const list = require("./list.json");
-const crypto = require("node:crypto");
-const cors = require("cors");
+import express, { json } from "express";
+
+import { requireJSON } from "./utils/requireJSON.js";
+import { randomUUID } from "node:crypto";
+import cors from "cors";
 const app = express();
-const {
-  validateSchema,
-  validatePartialSchema,
-} = require("./schema/listSchema.js");
+import { validateSchema, validatePartialSchema } from "./schema/listSchema.js";
 const PORT = process.env.PORT || 3001;
+const list = requireJSON("../list.json");
 
 app.disable("x-powered-by");
 app.use(
@@ -22,7 +21,7 @@ app.use(
     },
   })
 );
-app.use(express.json());
+app.use(json());
 
 // Para obtener los datos de todas las listas
 app.get("/list", (req, res) => {
@@ -41,12 +40,12 @@ app.get("/list/:id", (req, res) => {
 app.post("/list", (req, res) => {
   const listRequest = validateSchema(req.body);
   if (!listRequest.success)
-    return res.status(400).json({ message: list.error });
+    return res.status(400).json({ message: listRequest.error });
   let date = new Date().toISOString();
   date = date.split("T")[0];
 
   const newList = {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     date,
     ...listRequest.data,
   };
@@ -77,7 +76,7 @@ app.patch("/list/:id", (req, res) => {
 // Para eliminar una lista en particular
 app.delete("/list/:id", (req, res) => {
   const { id } = req.params;
-  const listMod = list.findIndex((list) => list.id === id);
+  const listMod = findIndex((list) => list.id === id);
   if (listMod === -1)
     return res.status(404).json({ message: "List not found" });
 

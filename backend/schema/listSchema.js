@@ -1,4 +1,4 @@
-const z = require("zod");
+import z from "zod";
 
 const listSchema = z.object({ // Esquema de validaciones para la lista
   name: z
@@ -11,15 +11,12 @@ const listSchema = z.object({ // Esquema de validaciones para la lista
   status: z.boolean().default(false),
 });
 
-const validateSchema = (list) => {
+export const validateSchema = (list) => {
   return listSchema.safeParse(list);
 };
 
-const validatePartialSchema = (list) => {
+export const validatePartialSchema = (list) => {
   return listSchema.partial().safeParse(list);
 };
 
-module.exports = {
-  validateSchema,
-  validatePartialSchema,
-};
+
