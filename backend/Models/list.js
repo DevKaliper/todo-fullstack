@@ -1,17 +1,17 @@
-import { requireJSON } from "./../utils/requireJSON.js";
+import { requireJSON } from "../utils/requireJSON.js";
 import { randomUUID } from "node:crypto";
 const list = requireJSON("../list.json");
 
-export class Movie {
-  static getMovie() {
+export class List {
+  static getList() {
     return list;
   }
 
-  static getMovieById({ id }) {
+  static getListById({ id }) {
     return list.find((list) => list.id === id);
   }
 
-  static createMovie({ input }) {
+  static createList({ input }) {
     let date = new Date().toISOString();
     date = date.split("T")[0];
     const newList = {
@@ -25,7 +25,7 @@ export class Movie {
     return newList;
   }
 
-  static updateMovie({ id, input }) {
+  static updateList({ id, input }) {
     const listMod = list.findIndex((list) => list.id === id);
 
     if (listMod === -1) {
@@ -40,7 +40,7 @@ export class Movie {
     return list[listMod];
   }
 
-  static deleteMovie({ id }) {
+  static deleteList({ id }) {
     const listMod = list.findIndex((list) => list.id === id);
     if (listMod === -1) {
       return false;
