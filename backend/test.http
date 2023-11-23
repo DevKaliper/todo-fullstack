@@ -12,8 +12,8 @@ Content-Type: application/json
 
 
 {
-    "id": "lista creada",
-    "name": "Lista de la compra",
+    "id": "test 2",
+    "name": "test 3",
     "description": "Lista de la compra de la semana"
 
    
@@ -24,7 +24,7 @@ PATCH http://localhost:3001/list/abcd-efgh-5678
 Content-Type: application/json
 
 {
-    "name": "Probando la modificación ",
+    "name": "Probando la modificación 2 ",
     "description": "Lista de la compra de la semana"
 }
 
