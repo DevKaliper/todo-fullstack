@@ -2,12 +2,9 @@
 import React, {useEffect, useState} from "react";
 
 import { CardWithForm } from "./Card-list";
+import { getTodos } from "@/services/list.ts";
 
-async function getTodos() {
-  const res = await fetch("https://listbackend-dev-ssag.2.us-1.fl0.io/list", {cache: "no-store"});
-  if (!res.ok) throw new Error("Something went wrong");
-  return res.json();
-}
+
 
 
 export default  function Page({change, setChanges}:any) {
