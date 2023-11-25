@@ -1,9 +1,10 @@
 
+const url ="https://listbackend-dev-ssag.2.us-1.fl0.io/list"
 
 
 export const postTodo = (setChange, setDescription, setName, setStatus, toast, name, description, status) => {
  
-    fetch("https://listbackend-dev-ssag.2.us-1.fl0.io/list", {
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +34,7 @@ export const postTodo = (setChange, setDescription, setName, setStatus, toast, n
 
 
  export const editTodo = (name, description, status, setChanges, id) => {
-    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${id}`, {
+    fetch(`${url}/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -57,13 +58,13 @@ export const postTodo = (setChange, setDescription, setName, setStatus, toast, n
   };
 
   export const deleteTodo = (id, setChanges) => {
-    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${id}`, {
+    fetch(`${url}/${id}`, {
       method: "DELETE",
     }).then((res) => setChanges((prev: any) => prev + 1));
   };
 
  export async function getTodos() {
-    const res = await fetch("https://listbackend-dev-ssag.2.us-1.fl0.io/list", {cache: "no-store"});
+    const res = await fetch(`${url}`, {cache: "no-store"});
     if (!res.ok) throw new Error("Something went wrong");
     return res.json();
   }
