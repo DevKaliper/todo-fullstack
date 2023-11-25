@@ -1,5 +1,5 @@
-"use client"
-import {useState} from "react";
+"use client";
+import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,19 +20,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
-export function CardWithForm({ task, setChanges}:any) {
+export function CardWithForm({ task, setChanges }: any) {
   const { toast } = useToast();
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
   const editTodo = () => {
-    fetch(`http://localhost:3001/list/${task.id}`, {
+    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${task.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -42,26 +48,24 @@ export function CardWithForm({ task, setChanges}:any) {
         description,
         status,
       }),
-
-  }
-  ).then(res =>{
-    if (!res.ok) toast({
-      title: "Error",
-      variant: "destructive",
-      description:
-        "Something went wrong! Check your fields and try again.",
+    }).then((res) => {
+      if (!res.ok)
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description: "Something went wrong! Check your fields and try again.",
+        });
+      else {
+        setChanges((prev: any) => prev + 1);
+      }
     });
-  })
-  setChanges((prev:any) => prev + 1);
-  }
+  };
 
   const deleteTodo = () => {
-    fetch(`http://localhost:3001/list/${task.id}`, {
-      method: "DELETE"})
-
-      setChanges((prev:any) => prev + 1);
-
-  }
+    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${task.id}`, {
+      method: "DELETE",
+    }).then((res) => setChanges((prev: any) => prev + 1));
+  };
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -76,71 +80,84 @@ export function CardWithForm({ task, setChanges}:any) {
         </p>
 
         <h3>
-          Estado de la lista: <strong className="italic">{task.status ? "Done":"Pending"}</strong>
+          Estado de la lista:{" "}
+          <strong className="italic">{task.status ? "Done" : "Pending"}</strong>
         </h3>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button onClick={deleteTodo} variant="destructive">Delete</Button>
+        <Button
+          onClick={deleteTodo}
+          variant="destructive">
+          Delete
+        </Button>
         <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger>
+          <DialogTrigger asChild>
+            <Button variant="outline">Edit Profile</Button>
+          </DialogTrigger>
 
-      {/* EMPIEZA EL DIALOG PARA EDITAR EL TODO */}
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>ID: {task.id}</DialogTitle>
-          <DialogDescription>
-            Edit your TODO list.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)} // PARA CAMBIAR EL VALOR DE NAME
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="Description" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              id="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)} // PARA CAMBIAR EL VALOR DE DESCRIPTION
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="status" className="text-right">
-              Status
-            </Label>
-            <Select onValueChange={(e) => setStatus(e==="done"?true:false)}>
-              <SelectTrigger>
-                <SelectValue placeholder={"❔"}/>
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="done">✅ done</SelectItem>
-                <SelectItem value="pending">❌ pending</SelectItem>
-              </SelectContent>
-            </Select>
-        </div>
-        </div>
-        <DialogFooter>
-        <DialogClose asChild>
-          <Button onClick={editTodo} type="submit">Save changes</Button>
-        </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          {/* EMPIEZA EL DIALOG PARA EDITAR EL TODO */}
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>ID: {task.id}</DialogTitle>
+              <DialogDescription>Edit your TODO list.</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label
+                  htmlFor="name"
+                  className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} // PARA CAMBIAR EL VALOR DE NAME
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label
+                  htmlFor="Description"
+                  className="text-right">
+                  Description
+                </Label>
+                <Textarea
+                  id="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)} // PARA CAMBIAR EL VALOR DE DESCRIPTION
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label
+                  htmlFor="status"
+                  className="text-right">
+                  Status
+                </Label>
+                <Select
+                  onValueChange={(e) => setStatus(e === "done" ? true : false)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={"❔"} />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="done">✅ done</SelectItem>
+                    <SelectItem value="pending">❌ pending</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  onClick={editTodo}
+                  type="submit">
+                  Save changes
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardFooter>
     </Card>
-
   );
 }

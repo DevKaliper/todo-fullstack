@@ -31,7 +31,7 @@ export function AddNew({ setChange }: { setChange: any }) {
   const [status, setStatus] = useState(false);
 
   const postTodo = () => {
-    fetch("http://localhost:3001/list", {
+    fetch("https://listbackend-dev-ssag.2.us-1.fl0.io/list", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,8 +49,11 @@ export function AddNew({ setChange }: { setChange: any }) {
           description:
             "Something went wrong, please fill all the fields and try again.",
         });
+        else{
+          setChange((prev: number) => prev + 1);
+
+        }
     });
-    setChange((prev: number) => prev + 1);
     setDescription("");
     setName("");
     setStatus(false);
