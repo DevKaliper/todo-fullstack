@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { editTodo, deleteTodo } from "@/services/list.ts";
+import { editTodo, deleteTodo } from "@/services/list";
 
 export function CardWithForm({ task, setChanges }: any) {
   const { toast } = useToast();
@@ -123,7 +123,7 @@ export function CardWithForm({ task, setChanges }: any) {
             <DialogFooter>
               <DialogClose asChild>
                 <Button
-                  onClick={()=>editTodo(name, description, status, setChanges, task.id)}
+                  onClick={()=>editTodo(name, description, status, setChanges, task.id, toast)}
                   type="submit">
                   Save changes
                 </Button>

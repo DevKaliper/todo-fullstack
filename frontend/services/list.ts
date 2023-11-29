@@ -2,7 +2,10 @@
 const url ="https://listbackend-dev-ssag.2.us-1.fl0.io/list"
 
 
-export const postTodo = (setChange, setDescription, setName, setStatus, toast, name, description, status) => {
+
+
+
+export const postTodo = (setChange :any, setDescription:any, setName:any, setStatus:any, toast:any, name:any, description:any, status:any) => {
  
     fetch(url, {
       method: "POST",
@@ -33,7 +36,7 @@ export const postTodo = (setChange, setDescription, setName, setStatus, toast, n
   };
 
 
- export const editTodo = (name, description, status, setChanges, id) => {
+ export const editTodo = (name:any, description:any, status:any, setChanges:any, id:any, toast:any) => {
     fetch(`${url}/${id}`, {
       method: "PATCH",
       headers: {
@@ -57,7 +60,7 @@ export const postTodo = (setChange, setDescription, setName, setStatus, toast, n
     });
   };
 
-  export const deleteTodo = (id, setChanges) => {
+  export const deleteTodo = (id:any, setChanges:any) => {
     fetch(`${url}/${id}`, {
       method: "DELETE",
     }).then((res) => setChanges((prev: any) => prev + 1));
