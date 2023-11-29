@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { postTodo } from "@/services/list.ts";
+
+
 import {
   Select,
   SelectContent,
@@ -30,34 +33,8 @@ export function AddNew({ setChange }: { setChange: any }) {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState(false);
 
-  const postTodo = () => {
-    fetch("https://listbackend-dev-ssag.2.us-1.fl0.io/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        description,
-        status,
-      }),
-    }).then((res) => {
-      if (!res.ok)
-        toast({
-          title: "Error",
-          variant: "destructive",
-          description:
-            "Something went wrong, please fill all the fields and try again.",
-        });
-        else{
-          setChange((prev: number) => prev + 1);
 
-        }
-    });
-    setDescription("");
-    setName("");
-    setStatus(false);
-  };
+  
 
   return (
     <Sheet>
@@ -121,7 +98,7 @@ export function AddNew({ setChange }: { setChange: any }) {
         <SheetFooter>
           <SheetClose asChild>
             <Button
-              onClick={postTodo}
+              onClick={()=>postTodo(setChange, setDescription, setName, setStatus, toast, name, description, status)}
               type="submit">
               Save
             </Button>

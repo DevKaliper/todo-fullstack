@@ -31,41 +31,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { editTodo, deleteTodo } from "@/services/list.ts";
 
 export function CardWithForm({ task, setChanges }: any) {
   const { toast } = useToast();
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
-  const editTodo = () => {
-    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${task.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        description,
-        status,
-      }),
-    }).then((res) => {
-      if (!res.ok)
-        toast({
-          title: "Error",
-          variant: "destructive",
-          description: "Something went wrong! Check your fields and try again.",
-        });
-      else {
-        setChanges((prev: any) => prev + 1);
-      }
-    });
-  };
+ 
 
-  const deleteTodo = () => {
-    fetch(`https://listbackend-dev-ssag.2.us-1.fl0.io/list/${task.id}`, {
-      method: "DELETE",
-    }).then((res) => setChanges((prev: any) => prev + 1));
-  };
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -86,7 +60,7 @@ export function CardWithForm({ task, setChanges }: any) {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button
-          onClick={deleteTodo}
+          onClick={()=>deleteTodo(task.id, setChanges)}
           variant="destructive">
           Delete
         </Button>
@@ -149,7 +123,7 @@ export function CardWithForm({ task, setChanges }: any) {
             <DialogFooter>
               <DialogClose asChild>
                 <Button
-                  onClick={editTodo}
+                  onClick={()=>editTodo(name, description, status, setChanges, task.id)}
                   type="submit">
                   Save changes
                 </Button>
