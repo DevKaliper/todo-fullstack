@@ -12,7 +12,7 @@ export default function Header({setChange}: {setChange: any}) {
     <div className="flex z-[9999999]  w-full items-center  justify-between   rounded-lg px-5 py-3 shadow-lg ">
       <div className="flex items-center justify-center gap-1">
         <Logo />
-        <span className="md:text-2xl font-bold"> TODO LIST </span>
+        <span className="md:text-2xl font-bold hidden md:block"> TODO LIST </span>
       </div>
 
       <div className="flex gap-4">

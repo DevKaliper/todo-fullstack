@@ -1,12 +1,9 @@
+"use client";
 
-"use client"
-import { useEffect } from "react";
 import { useTheme } from "next-themes";
 export function Logo() {
-const { theme, setTheme } = useTheme();
-useEffect(() =>{
-  setTheme("system")
-},[])
+  const { theme } = useTheme();
+
   return (
     <svg
       version="1.0"
@@ -17,7 +14,9 @@ useEffect(() =>{
       preserveAspectRatio="xMidYMid meet">
       <g
         transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
-        fill={theme === "dark" ? "#fff" : theme === "system" ? "#808080" : "#000" || "#808080"}
+        fill={
+          theme === "dark" ? "#fff" : theme === "system" ? "#808080" : "#000" // acá hago el cambio de color del logo
+        }
         stroke="none">
         <path
           d="M850 2488 l0 -1943 410 615 410 615 0 993 0 992 283 0 c298 0 410

@@ -69,7 +69,7 @@ export function CardWithForm({ task, setChanges }: any) {
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>ID: {task.id}</CardTitle>
+       
         <CardDescription>Created on: {task.date}</CardDescription>
       </CardHeader>
       <CardContent className="text-center">
@@ -98,7 +98,7 @@ export function CardWithForm({ task, setChanges }: any) {
           {/* EMPIEZA EL DIALOG PARA EDITAR EL TODO */}
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>ID: {task.id}</DialogTitle>
+           
               <DialogDescription>Edit your TODO list.</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
