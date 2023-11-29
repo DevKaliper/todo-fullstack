@@ -1,4 +1,3 @@
-![image](https://github.com/DevKaliper/todo-fullstack/assets/122651755/ef476e59-92a1-4bfb-9e1a-b56056572f63)
 
 
 ![image](https://github.com/DevKaliper/todo-fullstack/assets/122651755/1f549f0c-ceab-423e-99f2-8d75ee96f089)
