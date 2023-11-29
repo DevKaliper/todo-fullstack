@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 
 import { CardWithForm } from "./Card-list";
-import { getTodos } from "@/services/list.ts";
+import { getTodos } from "@/services/list";
 
 
 
